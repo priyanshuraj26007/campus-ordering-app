@@ -12,3 +12,5 @@ WhatsApp*
 
 # Supabase CLI local cache
 supabase/.temp
+# PowerShell cache that can appear in the project folder
+Microsoft/
