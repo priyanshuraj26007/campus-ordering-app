@@ -9,3 +9,6 @@ next-env.d.ts
 .DS_Store
 # Menu photos show the owner's phone number; the menu itself is in data/safal-menu.json
 WhatsApp*
+
+# Supabase CLI local cache
+supabase/.temp
