@@ -11,4 +11,6 @@ export const PICKUP_MINUTES = 20;
 export const REASONS = ["Item not available", "Too busy right now", "Closing soon"] as const;
 export type ShopOrder = Order & { student: string; placed_at: string | null; ready_at: string | null };
 export const ORDER_LIMIT = 300;
+// Orders a student can have on the go at once (unpaid, accepted or ready to collect).
+export const MAX_ACTIVE_ORDERS = 5;
 export const ACTIVE: Status[] = ["awaiting_payment", "placed", "ready"];

@@ -7,10 +7,10 @@ import Sheet, { type SheetHandle } from "./Sheet";
 import { ThemeMenu } from "./ThemeSwitch";
 import { ORDER_LIMIT, type Category, type Item } from "@/lib/types";
 
-type Props = { menu: Category[]; open: boolean; activeId: string | null; email: string };
+type Props = { menu: Category[]; open: boolean; active: string[]; email: string };
 const anchor = (n: string) => n.toLowerCase().replace(/[^a-z]+/g, "-");
 
-export default function MenuApp({ menu, open, activeId, email }: Props) {
+export default function MenuApp({ menu, open, active, email }: Props) {
   const router = useRouter();
   const [q, setQ] = useState(""), [current, setCurrent] = useState(menu[0]?.name);
   const [cart, setCart] = useState<Record<number, number>>({});
@@ -85,11 +85,10 @@ export default function MenuApp({ menu, open, activeId, email }: Props) {
       <label className="label">Note for Safal<input maxLength={200} placeholder="No sugar, less spicy…" value={note} onChange={(e) => setNote(e.target.value)} /></label>
       <p className="total"><span>Total</span><b>₹{total}</b></p>
       {total > ORDER_LIMIT && <p className="error">Orders are limited to ₹{ORDER_LIMIT}. Remove ₹{total - ORDER_LIMIT} or more.</p>}
-      {activeId && <p className="error">You already have an active order.</p>}
       {!open && <p className="error">Safal isn&apos;t taking orders right now.</p>}
       {error && <p className="error" role="alert">{error}</p>}
       <p className="muted">Once paid, your order goes straight to Safal and can&apos;t be cancelled. Orders that aren&apos;t collected aren&apos;t refunded.</p>
-      <button className="primary" disabled={busy || total > ORDER_LIMIT || !open || !!activeId} onClick={place}>{busy ? "One moment…" : `Continue to pay ₹${total}`}</button></>}
+      <button className="primary" disabled={busy || total > ORDER_LIMIT || !open} onClick={place}>{busy ? "One moment…" : `Continue to pay ₹${total}`}</button></>}
   </div>;
 
   return <>
@@ -102,7 +101,8 @@ export default function MenuApp({ menu, open, activeId, email }: Props) {
     <div className="find"><div className="wrap"><input type="search" aria-label="Search the menu" placeholder="Search momos, juice, Maggi…" value={q} onChange={(e) => setQ(e.target.value)} />
       <nav className="rail" ref={rail} aria-label="Menu categories">{shown.map((c) => <a key={c.name} href={`#${anchor(c.name)}`} aria-current={c.name === current ? "true" : undefined}>{c.name}</a>)}</nav></div></div>
     <div className="wrap layout"><main className="menu">
-      {activeId && <Link className="banner" href={`/orders/${activeId}`}><span>You have an active order</span><span>View →</span></Link>}
+      {active.length > 0 && <Link className="banner" href={active.length === 1 ? `/orders/${active[0]}` : "/orders"}>
+        <span>{active.length === 1 ? "You have an order on the go" : `You have ${active.length} orders on the go`}</span><span>View →</span></Link>}
       {!shown.length && <p className="muted">Nothing matches “{q}”. Try a shorter word.</p>}
       {shown.map((c) => <section key={c.name} id={anchor(c.name)} data-name={c.name}><h2>{c.name}</h2><ul className="grid">
         {c.items.map((i) => {

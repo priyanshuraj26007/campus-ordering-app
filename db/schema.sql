@@ -1,6 +1,10 @@
 -- Campus Order database (Supabase Postgres). Safe to run more than once: `npm run db:setup`.
 -- Times are ISO-8601 text in UTC, which sorts and compares correctly as text.
 
+-- Runs as one batch, so this applies to everything below: give up after 15 s rather than queue
+-- behind a busy live table for minutes.
+set lock_timeout = '15s';
+
 create table if not exists shops (
   id text primary key,
   name text not null,
@@ -42,9 +46,10 @@ create table if not exists orders (
   done_at text,
   reason text
 );
--- One active order per student, and pickup codes unique among active orders.
-create unique index if not exists one_active_order on orders (email)
-  where status in ('awaiting_payment', 'placed', 'ready');
+-- Pickup codes are unique among active orders. Students may have several orders on the go
+-- (the app caps it at MAX_ACTIVE_ORDERS), so the old one-active-order index is removed.
+drop index if exists one_active_order;
+create index if not exists orders_by_email on orders (email);
 create unique index if not exists unique_active_code on orders (shop_id, code)
   where status in ('awaiting_payment', 'placed', 'ready');
 create index if not exists orders_by_status on orders (status);
@@ -76,10 +81,13 @@ create table if not exists shop_login (
 
 -- The app connects as the database owner, which bypasses row-level security. Turning it on with no
 -- policies closes Supabase's public REST API to these tables, so the anon key can't read orders or emails.
-alter table shops enable row level security;
-alter table items enable row level security;
-alter table variants enable row level security;
-alter table orders enable row level security;
-alter table order_lines enable row level security;
-alter table payments enable row level security;
-alter table shop_login enable row level security;
+-- Only tables that don't have it yet are touched, so re-running this doesn't lock a busy live table.
+do $$
+declare t text;
+begin
+  foreach t in array array['shops', 'items', 'variants', 'orders', 'order_lines', 'payments', 'shop_login'] loop
+    if not (select relrowsecurity from pg_class where oid = t::regclass) then
+      execute format('alter table %I enable row level security', t);
+    end if;
+  end loop;
+end $$;

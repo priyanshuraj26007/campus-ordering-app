@@ -1,6 +1,6 @@
 import { randomInt, randomUUID } from "node:crypto";
 import { db, isUniqueViolation, type Q } from "./db";
-import { ACTIVE, ORDER_LIMIT, PAY_MINUTES, type Category, type Order, type OrderLine } from "./types";
+import { ACTIVE, MAX_ACTIVE_ORDERS, ORDER_LIMIT, PAY_MINUTES, type Category, type Order, type OrderLine } from "./types";
 
 export class OrderError extends Error {}
 
@@ -57,8 +57,9 @@ export async function placeOrder(email: string, body: unknown): Promise<string> 
     return await db().begin(async (tx) => {
       await expireOld(tx);
       if (!(await shopIsOpen(tx))) throw new OrderError("Safal isn't taking orders right now.");
-      if ((await tx`select 1 from orders where email = ${email} and status in ${tx(ACTIVE)}`).length)
-        throw new OrderError("You already have an active order. Finish or cancel it first.");
+      // Several orders at once are fine; a cap stops one student flooding Safal's list.
+      const [{ n }] = await tx<{ n: number }[]>`select count(*)::int as n from orders where email = ${email} and status in ${tx(ACTIVE)}`;
+      if (n >= MAX_ACTIVE_ORDERS) throw new OrderError(`You have ${n} orders on the go. Collect one before ordering more.`);
       // Prices always come from the database, never from the browser.
       const found = new Map((await tx<{ id: number; size: string; price: number; name: string; available: boolean }[]>`
         select v.id, v.size, v.price, i.name, i.available from variants v join items i on i.id = v.item_id
@@ -81,8 +82,7 @@ export async function placeOrder(email: string, body: unknown): Promise<string> 
       return id;
     });
   } catch (e) {
-    // Two orders racing from the same student (or for the same code) are stopped by the unique indexes.
-    if (isUniqueViolation(e, "one_active_order")) throw new OrderError("You already have an active order. Finish or cancel it first.");
+    // Two orders racing for the same pickup code are stopped by the unique index.
     if (isUniqueViolation(e, "unique_active_code")) throw new OrderError("That clashed with another order. Try again.");
     throw e;
   }

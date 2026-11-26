@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import FoodArt from "./FoodArt";
 import { ThemeMenu } from "./ThemeSwitch";
+import { useWhenShown } from "./LiveRefresh";
 import { LABEL } from "@/lib/labels";
 import { ACTIVE, type Order, type Status } from "@/lib/types";
 type Rzp = new (o: object) => { open(): void };
@@ -25,19 +26,14 @@ const clock = (iso: string) => new Date(iso).toLocaleTimeString("en-IN", { timeS
 export default function OrderView({ initial }: { initial: Order }) {
   const [o, setO] = useState(initial), [error, setError] = useState("");
   const active = ACTIVE.includes(o.status), step = STEPS.findIndex((s) => s.status === o.status);
-  useEffect(() => {
-    if (!active) return;
-    const t = setInterval(async () => {
-      try { const r = await fetch(`/api/orders/${initial.id}`); if (r.ok) setO(await r.json()); } catch { /* retry next time */ }
-    }, 5000);
-    return () => clearInterval(t);
-  }, [active, initial.id]);
   const [busy, setBusy] = useState(false), [mock, setMock] = useState(false), started = useRef(false);
   const id = initial.id;
   const refresh = useCallback(async () => {
-    const r = await fetch(`/api/orders/${id}`);
-    if (r.ok) setO(await r.json());
+    // no-store: never show a cached answer about whether an order is paid
+    try { const r = await fetch(`/api/orders/${id}`, { cache: "no-store" }); if (r.ok) setO(await r.json()); } catch { /* try again next time */ }
   }, [id]);
+  // The latest status the moment the page is shown (including after Back), then every 4 s while it's in progress.
+  useWhenShown(refresh, active ? 4000 : undefined);
   const pay = useCallback(async () => {
     setBusy(true); setError("");
     try {
@@ -83,8 +79,9 @@ export default function OrderView({ initial }: { initial: Order }) {
     setError("");
     try {
       const r = await fetch(`/api/orders/${o.id}`, { method: "DELETE" });
-      if (r.ok) await refresh(); else setError((await r.json()).error);
+      if (!r.ok) setError((await r.json()).error);
     } catch { setError("Couldn't connect. Try again."); }
+    await refresh(); // either way, show what the order really is now
   }
   // Tell the student when it turns ready, even if they're looking at another tab.
   const was = useRef(initial.status);
@@ -114,7 +111,7 @@ export default function OrderView({ initial }: { initial: Order }) {
           <span className="muted">{l.qty} × ₹{l.price}{l.size !== "Regular" && `, ${l.size}`}</span></div><b>₹{l.price * l.qty}</b></li>)}</ul>
         {o.note && <p className="muted">Note: {o.note}</p>}
         {o.pickup_at && o.status !== "placed" && <p className="muted">Pickup around {clock(o.pickup_at)}</p>}
-        <p className="total"><span>{paid ? "Paid" : o.pay_status ? "Total" : waiting ? "To pay" : "Pay at counter"}</span><b>₹{o.total}</b></p>
+        <p className="total"><span>{paid ? "Paid" : waiting ? "To pay" : "Total"}</span><b>₹{o.total}</b></p>
         {error && <p className="error" role="alert">{error}</p>}
         {waiting && !mock && <button className="primary" disabled={busy} onClick={pay}>{busy ? "Opening payment…" : `Pay ₹${o.total}`}</button>}
         {waiting && mock && <div className="mock"><b>Simulated payment</b><p className="muted">No Razorpay keys are set, so no money moves.</p>
