@@ -1,5 +1,6 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
+import ThemeSwitch from "./ThemeSwitch";
 import { PICKUP_MINUTES, REASONS, type Category, type ShopOrder, type Status } from "@/lib/types";
 
 type Board = { open: boolean; orders: ShopOrder[]; sales: number; count: number; stuck: number };
@@ -7,7 +8,7 @@ const HI: Record<string, string> = {
   "Orders": "ऑर्डर", "Menu": "मेन्यू", "Today": "आज", "Open": "खुला", "Closed": "बंद", "Open shop": "दुकान खोलें", "Close shop": "दुकान बंद करें", "Sign out": "साइन आउट",
   "To make": "बनाने हैं", "Ready": "तैयार", "Nothing to make": "कुछ बनाना नहीं", "Nothing waiting": "कुछ बाकी नहीं",
   "min": "मिनट", "Mark ready": "तैयार है", "Can't make it": "नहीं बना सकते", "Not collected": "लेने नहीं आए",
-  "Pickup code": "पिकअप कोड", "Hand over": "ऑर्डर दें", "Handed over to": "ऑर्डर दिया:", "Turn on sound": "आवाज़ चालू करें", "Sound is on": "आवाज़ चालू है", "late": "देर", "Wants it at": "चाहिए:", "Wants it now": "अभी चाहिए", "Ready at": "तैयार हुआ:", "Back": "वापस",
+  "Pickup code": "पिकअप कोड", "Hand over": "ऑर्डर दें", "Handed over to": "ऑर्डर दिया:", "Turn on sound": "आवाज़ चालू करें", "Sound is on": "आवाज़ चालू है", "late": "देर", "Wants it at": "चाहिए:", "Wants it now": "अभी चाहिए", "Appearance": "रंग", "Light": "लाइट", "Dark": "डार्क", "System": "सिस्टम", "Ready at": "तैयार हुआ:", "Back": "वापस",
   "Item not available": "सामान नहीं है", "Too busy right now": "अभी बहुत भीड़ है", "Closing soon": "बंद होने वाला है", "Sold out": "ख़त्म", "Available": "उपलब्ध", "Search the menu": "मेन्यू में खोजें",
   "Orders sold": "ऑर्डर बिके", "Sales": "बिक्री", "No connection. Orders may be out of date.": "इंटरनेट नहीं है। ऑर्डर पुराने हो सकते हैं।", "Collected": "ले लिया", "Rejected": "मना किया", "Missed": "छूट गया", "Nothing yet today": "आज अभी कुछ नहीं", "Saved": "सेव हुआ", "refund(s) not going through. Add money to your Razorpay balance.": "रिफंड नहीं हो रहे। Razorpay बैलेंस में पैसे डालें।",
 };
@@ -91,7 +92,7 @@ export default function ShopDashboard({ initial, menu: startMenu }: { initial: B
     <header className={board.open ? "shop-top" : "shop-top shut-bar"}><h1>Safal</h1><b>{t(board.open ? "Open" : "Closed")}</b>
       <button onClick={() => send("/api/shop/settings", { open: !board.open })} disabled={!!busy}>{t(board.open ? "Close shop" : "Open shop")}</button>
       <button aria-pressed={sound} onClick={() => { audio.current ??= new AudioContext(); void audio.current.resume(); setSound(!sound); }}>{t(sound ? "Sound is on" : "Turn on sound")}</button>
-      <span className="grow" /><button lang={hindi ? "en" : "hi"} onClick={() => { localStorage.setItem("shop-hindi", hindi ? "0" : "1"); setHindi(!hindi); }}>{hindi ? "English" : "हिंदी"}</button>
+      <span className="grow" /><ThemeSwitch t={t} /><button lang={hindi ? "en" : "hi"} onClick={() => { localStorage.setItem("shop-hindi", hindi ? "0" : "1"); setHindi(!hindi); }}>{hindi ? "English" : "हिंदी"}</button>
       <button onClick={async () => { await fetch("/api/shop/logout", { method: "POST" }); location.href = "/shop/login"; }}>{t("Sign out")}</button></header>
     <nav className="tabs">{["Orders", "Menu", "Today"].map((x) => <button key={x} aria-current={tab === x ? "page" : undefined} onClick={() => setTab(x)}>{t(x)}{x === "Orders" && toMake.length > 0 && <i>{toMake.length}</i>}</button>)}</nav>
     {offline && <p className="alert bad" role="alert">{t("No connection. Orders may be out of date.")}</p>}

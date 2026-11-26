@@ -4,10 +4,19 @@ import "./globals.css";
 // Everything people read and tap uses the system font, which already has optical sizes and Devanagari.
 const head = Baloo_2({ subsets: ["latin", "devanagari"], weight: ["600", "700", "800"], variable: "--head" });
 export const metadata = { title: "Campus Order", description: "Order ahead from Safal at NSUT" };
-export const viewport = {
-  width: "device-width", initialScale: 1, viewportFit: "cover",
-  themeColor: [{ media: "(prefers-color-scheme: light)", color: "#1f6feb" }, { media: "(prefers-color-scheme: dark)", color: "#1e3a8a" }],
-};
+export const viewport = { width: "device-width", initialScale: 1, viewportFit: "cover" };
+
+// Applies the saved appearance (Light, Dark or System) before anything is drawn, so there's no flash of
+// the wrong colours. In System mode it follows the device as it changes. components/ThemeSwitch.tsx calls
+// window.__applyTheme after saving a new choice. It also keeps the browser bar colour in step.
+const THEME_SCRIPT = `(function(){var d=document.documentElement,m=matchMedia("(prefers-color-scheme: dark)");
+function apply(){var c;try{c=localStorage.getItem("theme")}catch(e){}var t=c==="light"||c==="dark"?c:(m.matches?"dark":"light");
+d.dataset.theme=t;var b=document.querySelector('meta[name="theme-color"]');if(!b){b=document.createElement("meta");b.name="theme-color";document.head.appendChild(b)}
+b.content=t==="dark"?"#1e3a8a":"#1f6feb"}apply();m.addEventListener("change",apply);window.__applyTheme=apply})()`;
+
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return <html lang="en" className={head.variable}><body>{children}</body></html>;
+  // suppressHydrationWarning: the theme script sets data-theme on <html> before React loads.
+  return <html lang="en" className={head.variable} suppressHydrationWarning>
+    <head><script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} /></head>
+    <body>{children}</body></html>;
 }

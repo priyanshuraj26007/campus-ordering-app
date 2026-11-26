@@ -1,8 +1,8 @@
 import { redirect } from "next/navigation";
-import { currentEmail, devLoginEnabled } from "@/lib/auth";
+import { currentEmail } from "@/lib/auth";
 import { googleEnabled } from "@/lib/google";
 import FoodArt from "@/components/FoodArt";
-import LoginForm from "@/components/LoginForm";
+import ThemeSwitch from "@/components/ThemeSwitch";
 const ART = ["Mango Shake", "Veg Momos", "Kiwi Mint Mojito", "Masala Maggi", "Cheese Burger", "Anaar Juice", "Masala French Fries", "Blueberry Mojito", "Aloo Paratha"];
 // What went wrong, and what to do about it.
 const ERRORS: Record<string, string> = {
@@ -17,13 +17,13 @@ const G = <svg viewBox="0 0 48 48" width="20" height="20" aria-hidden><path fill
 export default async function Login({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
   if (await currentEmail()) redirect("/");
   const error = ERRORS[(await searchParams).error ?? ""];
-  const google = googleEnabled(), dev = devLoginEnabled();
+  const google = googleEnabled();
   return <main className="login"><div className="login-art" aria-hidden>{ART.map((n) => <FoodArt key={n} name={n} />)}</div>
     <div className="login-form"><h1>Skip the line at <em>Safal</em></h1>
       <p>Order between classes. Pick it up when it&apos;s ready.</p>
       {error && <p className="error" role="alert">{error}</p>}
       {google && <><a className="google" href="/api/auth/google">{G}<span>Continue with Google</span></a>
         <p className="muted">Use your NSUT account. We only see your name and email.</p></>}
-      {dev && <details className="dev-login" open={!google}><summary>Test login (development only)</summary><LoginForm /></details>}
-      {!google && !dev && <p role="alert">Sign-in isn&apos;t set up yet.</p>}</div></main>;
+      {!google && <p role="alert">Sign-in isn&apos;t set up yet.</p>}
+      <div className="appearance"><span>Appearance</span><ThemeSwitch /></div></div></main>;
 }

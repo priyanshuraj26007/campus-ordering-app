@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import FoodArt from "./FoodArt";
 import Sheet, { type SheetHandle } from "./Sheet";
+import { ThemeMenu } from "./ThemeSwitch";
 import { ORDER_LIMIT, type Category, type Item } from "@/lib/types";
 
 type Props = { menu: Category[]; open: boolean; activeId: string | null; email: string };
@@ -93,7 +94,7 @@ export default function MenuApp({ menu, open, activeId, email }: Props) {
 
   return <>
     <header className="top"><div className="wrap bar"><Link href="/" className="brand">Campus Order</Link>
-      <nav><Link href="/orders">My orders</Link>
+      <nav><ThemeMenu /><Link href="/orders">My orders</Link>
         <button onClick={async () => { await fetch("/api/logout", { method: "POST" }); location.href = "/login"; }}>Sign out</button></nav></div></header>
     <div className="hero"><div className="wrap"><div><span className={open ? "status" : "status shut"}>{open ? "Taking orders" : "Closed"}</span>
       <h1>Safal</h1><p>Order now, skip the line, pick up with a code.</p></div>

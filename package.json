@@ -1,1 +1,26 @@
-{"name":"campus-ordering-app","private":true,"version":"0.1.0","scripts":{"dev":"node -e \"require('fs').rmSync('.next',{recursive:true,force:true})\" && next dev -H 127.0.0.1","build":"next build","start":"next start","typecheck":"tsc --noEmit","setup:razorpay":"node scripts/setup-razorpay.mjs","shop:passcode":"node scripts/shop-passcode.mjs"},"dependencies":{"better-sqlite3":"^12.11.1","next":"^16.4.6","react":"^19.3.1","react-dom":"^19.3.1"},"devDependencies":{"@types/better-sqlite3":"^9.6.0","@types/node":"^26.6.10","@types/react":"^19.3.3","@types/react-dom":"^19.3.0","typescript":"^7.0.2"}}
+{
+  "name": "campus-ordering-app",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "node -e \"require('fs').rmSync('.next',{recursive:true,force:true})\" && next dev -H 127.0.0.1",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit --incremental false",
+    "setup:razorpay": "node scripts/setup-razorpay.mjs",
+    "shop:passcode": "node --env-file-if-exists=.env.local scripts/shop-passcode.mjs",
+    "db:setup": "node --env-file-if-exists=.env.local scripts/db-setup.mjs"
+  },
+  "dependencies": {
+    "next": "^16.4.6",
+    "postgres": "^4.1.1",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.10",
+    "@types/react": "^19.3.3",
+    "@types/react-dom": "^19.3.0",
+    "typescript": "^7.0.2"
+  }
+}

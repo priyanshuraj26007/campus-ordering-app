@@ -5,5 +5,6 @@ import { isShop } from "@/lib/shopauth";
 import ShopDashboard from "@/components/ShopDashboard";
 export default async function Page() {
   if (!(await isShop())) redirect("/shop/login");
-  return <ShopDashboard initial={shopBoard()} menu={getMenu()} />;
+  const [board, menu] = await Promise.all([shopBoard(), getMenu()]);
+  return <ShopDashboard initial={board} menu={menu} />;
 }

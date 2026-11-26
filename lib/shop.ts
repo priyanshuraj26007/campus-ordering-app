@@ -1,5 +1,5 @@
 import { db } from "./db";
-import { COLS, expireOld, markRefunds, OrderError, shopIsOpen, todayStart, withLines } from "./orders";
+import { expireOld, markRefunds, OrderError, shopIsOpen, todayStart, withLines } from "./orders";
 import { stuckRefunds } from "./payments";
 import { PICKUP_MINUTES, REASONS, type ShopOrder } from "./types";
 
@@ -8,53 +8,67 @@ const gone = () => new OrderError("This order has already changed. The list is n
 // The shop sees a name, not an email address.
 const nameOf = (email: string) => email.split("@")[0].replace(/\.ug\d+$/, "").split(/[._-]/).map((w) => w[0].toUpperCase() + w.slice(1)).join(" ");
 
-export function shopBoard() {
-  expireOld();
+export async function shopBoard() {
+  await expireOld();
   const today = todayStart();
-  const rows = db().prepare(`SELECT ${COLS}, email, placed_at, ready_at FROM orders WHERE shop_id='safal' AND (status IN ('placed','ready')
-    OR (status IN ('collected','rejected','not_collected','expired') AND done_at >= ?)) ORDER BY COALESCE(placed_at, created_at)`).all(today) as (Omit<ShopOrder, "lines" | "student"> & { email: string })[];
+  const [rows, open] = await Promise.all([
+    db()<(Omit<ShopOrder, "lines" | "student"> & { email: string })[]>`
+      select id, code, orders.status, total, note, pickup_at, created_at, reason, email, placed_at, ready_at,
+        (select p.status from payments p where p.order_id = orders.id) as pay_status
+      from orders where shop_id = 'safal' and (status in ('placed', 'ready')
+        or (status in ('collected', 'rejected', 'not_collected', 'expired') and done_at >= ${today}))
+      order by coalesce(placed_at, created_at)`,
+    shopIsOpen(),
+  ]);
   // The pickup code stays with the student, so matching it proves who is collecting.
-  const orders = rows.map(({ email, code: _code, ...o }) => withLines({ ...o, code: "", student: nameOf(email) })) as ShopOrder[];
+  const orders = (await withLines(rows.map(({ email, code: _code, ...o }) => ({ ...o, code: "", student: nameOf(email) })))) as ShopOrder[];
   const sold = rows.filter((o) => o.status === "collected" || o.status === "not_collected");
-  return { open: shopIsOpen(), orders, sales: sold.reduce((s, o) => s + o.total, 0), count: sold.length, stuck: stuckRefunds() };
+  return { open, orders, sales: sold.reduce((s, o) => s + o.total, 0), count: sold.length, stuck: stuckRefunds() };
 }
 
 // Paid orders arrive already accepted. Safal marks them ready, or cancels one it can't make (the student is refunded).
-export function shopAction(id: string, body: { action?: unknown; reason?: unknown } | null) {
-  const move = (sql: string, ...args: unknown[]) => { if (!db().prepare(sql).run(...args).changes) throw gone(); };
+export async function shopAction(id: string, body: { action?: unknown; reason?: unknown } | null) {
   switch (body?.action) {
-    case "ready": return move("UPDATE orders SET status='ready', ready_at=? WHERE id=? AND status='placed'", now(), id);
-    case "not_collected": return move("UPDATE orders SET status='not_collected', done_at=? WHERE id=? AND status='ready' AND ready_at < ?", now(), id, new Date(Date.now() - PICKUP_MINUTES * 60000).toISOString());
+    case "ready":
+      if (!(await db()`update orders set status = 'ready', ready_at = ${now()} where id = ${id} and status = 'placed'`).count) throw gone();
+      return;
+    case "not_collected":
+      if (!(await db()`update orders set status = 'not_collected', done_at = ${now()} where id = ${id} and status = 'ready'
+        and ready_at < ${new Date(Date.now() - PICKUP_MINUTES * 60000).toISOString()}`).count) throw gone();
+      return;
     case "reject":
       if (!REASONS.includes(body.reason as never)) throw new OrderError("Choose a reason.");
-      return db().transaction(() => {
-        move("UPDATE orders SET status='rejected', reason=?, done_at=? WHERE id=? AND status IN ('placed','ready')", body.reason, now(), id);
-        markRefunds();
-      }).immediate();
+      return db().begin(async (tx) => {
+        if (!(await tx`update orders set status = 'rejected', reason = ${body.reason as string}, done_at = ${now()}
+          where id = ${id} and status in ('placed', 'ready')`).count) throw gone();
+        await markRefunds(tx);
+      });
     default: throw new OrderError("Unknown action.");
   }
 }
 
 // A paid order can be handed over even if nobody tapped Ready, so a busy counter never has to.
-export function collect(code: unknown): string {
+export async function collect(code: unknown): Promise<string> {
   if (typeof code !== "string" || !/^\d{4}$/.test(code)) throw new OrderError("Enter the 4-digit code.");
-  const o = db().prepare("SELECT id, status, email FROM orders WHERE shop_id='safal' AND code=? AND status IN ('awaiting_payment','placed','ready')").get(code) as { id: string; status: string; email: string } | undefined;
+  const [o] = await db()<{ id: string; status: string; email: string }[]>`select id, status, email from orders
+    where shop_id = 'safal' and code = ${code} and status in ('awaiting_payment', 'placed', 'ready')`;
   if (!o) throw new OrderError("No order has that code.");
   if (o.status === "awaiting_payment") throw new OrderError(`${nameOf(o.email)} hasn't paid for this order yet.`);
-  if (!db().prepare("UPDATE orders SET status='collected', done_at=? WHERE id=? AND status IN ('placed','ready')").run(now(), o.id).changes) throw gone();
+  if (!(await db()`update orders set status = 'collected', done_at = ${now()} where id = ${o.id} and status in ('placed', 'ready')`).count) throw gone();
   return nameOf(o.email);
 }
 
-export function setOpen(open: unknown) {
+export async function setOpen(open: unknown) {
   if (typeof open !== "boolean") throw new OrderError("Invalid setting.");
-  db().prepare("UPDATE shops SET is_open=? WHERE id='safal'").run(open ? 1 : 0);
+  await db()`update shops set is_open = ${open} where id = 'safal'`;
 }
-export function updateMenu(b: { itemId?: unknown; available?: unknown; variantId?: unknown; price?: unknown } | null) {
+export async function updateMenu(b: { itemId?: unknown; available?: unknown; variantId?: unknown; price?: unknown } | null) {
   let changes = 0;
   if (typeof b?.itemId === "string" && typeof b.available === "boolean")
-    changes = db().prepare("UPDATE items SET available=? WHERE id=? AND shop_id='safal'").run(b.available ? 1 : 0, b.itemId).changes;
+    changes = (await db()`update items set available = ${b.available} where id = ${b.itemId} and shop_id = 'safal'`).count ?? 0;
   else if (Number.isInteger(b?.variantId) && Number.isInteger(b?.price) && (b!.price as number) >= 1 && (b!.price as number) <= 2000)
-    changes = db().prepare("UPDATE variants SET price=? WHERE id=? AND item_id IN (SELECT id FROM items WHERE shop_id='safal')").run(b!.price, b!.variantId).changes;
+    changes = (await db()`update variants set price = ${b!.price as number} where id = ${b!.variantId as number}
+      and item_id in (select id from items where shop_id = 'safal')`).count ?? 0;
   else throw new OrderError("Enter a whole price between ₹1 and ₹2000.");
   if (!changes) throw new OrderError("Item not found.");
 }

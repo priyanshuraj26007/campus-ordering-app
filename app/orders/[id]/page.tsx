@@ -5,7 +5,7 @@ import OrderView from "@/components/OrderView";
 export default async function OrderPage({ params }: { params: Promise<{ id: string }> }) {
   const email = await currentEmail();
   if (!email) redirect("/login");
-  const order = getOrder(email, (await params).id);
+  const order = await getOrder(email, (await params).id);
   if (!order) notFound();
   return <OrderView initial={order} />;
 }

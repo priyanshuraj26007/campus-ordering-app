@@ -4,9 +4,7 @@ import { cookies } from "next/headers";
 const DOMAIN = "nsut.ac.in";
 const WEEK = 60 * 60 * 24 * 7;
 
-// Local testing only: this login does not prove who owns the email.
-// It is off in production builds, where Google sign-in must replace it.
-export const devLoginEnabled = () => process.env.NODE_ENV === "development";
+// Students sign in with Google (lib/google.ts); this file keeps the session that follows.
 
 export function sessionSecret() {
   const s = process.env.SESSION_SECRET;

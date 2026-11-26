@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import FoodArt from "./FoodArt";
+import { ThemeMenu } from "./ThemeSwitch";
 import { LABEL } from "@/lib/labels";
 import { ACTIVE, type Order, type Status } from "@/lib/types";
 type Rzp = new (o: object) => { open(): void };
@@ -16,11 +17,14 @@ const post = async (url: string, body?: object) => {
   const r = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body ?? {}) });
   return { ok: r.ok, data: await r.json() };
 };
-const STEPS: Status[] = ["placed", "ready", "collected"];
+// What the student sees. Placed until the payment succeeds, then Accepted straight away (Safal takes every paid order).
+const STEPS: { status: Status; label: string }[] = [
+  { status: "awaiting_payment", label: "Placed" }, { status: "placed", label: "Accepted" },
+  { status: "ready", label: "Ready" }, { status: "collected", label: "Collected" }];
 const clock = (iso: string) => new Date(iso).toLocaleTimeString("en-IN", { timeStyle: "short", timeZone: "Asia/Kolkata" });
 export default function OrderView({ initial }: { initial: Order }) {
   const [o, setO] = useState(initial), [error, setError] = useState("");
-  const active = ACTIVE.includes(o.status), step = STEPS.indexOf(o.status);
+  const active = ACTIVE.includes(o.status), step = STEPS.findIndex((s) => s.status === o.status);
   useEffect(() => {
     if (!active) return;
     const t = setInterval(async () => {
@@ -44,7 +48,7 @@ export default function OrderView({ initial }: { initial: Order }) {
       else {
         await loadCheckout();
         new (razorpay()!)({ key: data.key, order_id: data.gatewayOrderId, amount: data.amount, currency: "INR",
-          name: "Campus Order", description: "Safal order", theme: { color: "#0b4a32" },
+          name: "Campus Order", description: "Safal order", theme: { color: "#2563eb" },
           method: { upi: true, card: data.testFallback, netbanking: data.testFallback, wallet: false, emi: false, paylater: false },
           modal: { ondismiss: () => setBusy(false) },
           handler: async (r: { razorpay_payment_id: string; razorpay_signature: string }) => {
@@ -91,12 +95,12 @@ export default function OrderView({ initial }: { initial: Order }) {
   }, [o.status]);
   const MESSAGE: Partial<Record<Status, string>> = {
     awaiting_payment: "Safal gets your order once you pay. Unpaid orders expire after 10 minutes. Orders that aren't collected aren't refunded.",
-    placed: o.pickup_at ? `Safal has your order and will have it ready around ${clock(o.pickup_at)}.` : "Safal has your order and is getting it ready.",
+    placed: o.pickup_at ? `Payment received. Safal will have it ready around ${clock(o.pickup_at)}.` : "Payment received. Safal is getting it ready.",
     rejected: o.reason ?? "Safal couldn't make this order.", expired: o.reason ?? "This order wasn't paid for in time.",
     not_collected: "This order wasn't collected, so it isn't refunded. Speak to Safal if something went wrong.",
     ready: "Show this code at the counter.", collected: "Enjoy your food!",
   };
-  return <main className="page"><Link className="back" href="/">← Menu</Link>
+  return <main className="page"><div className="page-top"><Link className="back" href="/">← Menu</Link><ThemeMenu /></div>
     <article className="token" data-status={o.status}>
       <div className="token-top"><span>Safal, NSUT</span><h1 aria-live="polite">{LABEL[o.status]}</h1>
         {MESSAGE[o.status] && <p>{MESSAGE[o.status]}</p>}
@@ -105,7 +109,7 @@ export default function OrderView({ initial }: { initial: Order }) {
       <div className="token-body">
         {o.pay_status === "refund_due" && <p className="notice">Your payment wasn&apos;t kept. The refund is automatic and can take a few days.</p>}
         {o.pay_status === "refunded" && <p className="notice">Your refund has been issued. Your bank decides when it arrives.</p>}
-        {step >= 0 && <ol className="steps">{STEPS.map((s, i) => <li key={s} className={i < step ? "done" : i === step ? "now" : ""} aria-current={i === step ? "step" : undefined}>{s === "placed" ? "Paid" : s === "ready" ? "Ready" : LABEL[s]}</li>)}</ol>}
+        {step >= 0 && <ol className="steps">{STEPS.map((s, i) => <li key={s.status} className={i < step ? "done" : i === step ? "now" : ""} aria-current={i === step ? "step" : undefined}>{s.label}</li>)}</ol>}
         <ul className="lines">{o.lines.map((l, i) => <li key={i}><FoodArt name={l.name} /><div><b>{l.name}</b>
           <span className="muted">{l.qty} × ₹{l.price}{l.size !== "Regular" && `, ${l.size}`}</span></div><b>₹{l.price * l.qty}</b></li>)}</ul>
         {o.note && <p className="muted">Note: {o.note}</p>}

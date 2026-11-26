@@ -13,20 +13,32 @@ Order-ahead web app for Safal at NSUT. Students pay by UPI through Razorpay and 
 
 ## Run locally
 
+Needs a free [Supabase](https://supabase.com) project (region: Mumbai) and the keys listed in `.env.example`.
+
 ```
 npm install
-cp .env.example .env.local   # or: npm run setup:razorpay
-npm run dev                  # http://127.0.0.1:3000
+cp .env.example .env.local   # then fill in DATABASE_URL, Google and Razorpay test keys
+npm run db:setup             # creates the tables and loads Safal's menu (safe to re-run)
 npm run shop:passcode        # passcode for /shop
+npm run dev                  # http://127.0.0.1:3000
 ```
 
 Without Razorpay keys, development uses a simulated payment. Only test keys are accepted for now.
+
+## Deploy (Vercel + Supabase, free tiers)
+
+1. Import the GitHub repo at [vercel.com/new](https://vercel.com/new). `vercel.json` runs it in Mumbai (`bom1`), next to the database.
+2. Add the environment variables from `.env.example`: `DATABASE_URL`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`,
+   `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET`, plus `SESSION_SECRET` (a long random string) and `APP_URL` (the Vercel address).
+3. In Google Cloud, add `https://<your-app>.vercel.app/api/auth/google/callback` as an authorised redirect URI.
+4. Optional: in Razorpay → Webhooks, point `https://<your-app>.vercel.app/api/webhooks/razorpay` at the
+   `payment.authorized`, `payment.captured` and `refund.processed` events, and set `RAZORPAY_WEBHOOK_SECRET`.
 
 ## Google sign-in
 
 Students sign in with their NSUT Google account (NSUT email runs on Google Workspace). Only verified
 `@nsut.ac.in` Workspace accounts in the undergraduate format (`first.last.ug23@nsut.ac.in`) get in.
-Without Google keys, development shows a test login that doesn't check the email; production has no test login.
+There is no other way to sign in: without Google keys the sign-in page says sign-in isn't set up.
 
 To set it up, in [Google Cloud console](https://console.cloud.google.com/):
 
@@ -48,4 +60,4 @@ NSUT's Google Workspace admins can block third-party apps; if students see "acce
 - Razorpay's automatic refund for uncaptured payments didn't happen within the 15 minutes requested in test mode. This now only affects payments that arrive after an order expired.
 - Refunds need enough balance in the Razorpay account.
 - UPI isn't enabled on the test account yet, so test mode also allows cards and netbanking.
-- Data is stored in SQLite at `data/campus.db`.
+- Free tiers: Supabase pauses a project after a week without use; open the dashboard to wake it.
