@@ -91,3 +91,13 @@ begin
     end if;
   end loop;
 end $$;
+
+-- Safety net: a serverless function frozen in the middle of a query leaves its database session waiting
+-- for the rest of that query forever, holding locks and a connection. Once a minute, end any session that
+-- has been waiting on the app for over a minute; a real query from this app never waits that long.
+create extension if not exists pg_cron with schema pg_catalog;
+select cron.schedule('end-stuck-sessions', '* * * * *', $job$
+  select pg_terminate_backend(pid) from pg_stat_activity
+  where datname = current_database() and backend_type = 'client backend' and state = 'active'
+    and wait_event = 'ClientRead' and now() - query_start > interval '60 seconds'
+$job$);
