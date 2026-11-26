@@ -488,3 +488,22 @@ aside { display: none; }
   .bar nav { gap: 0; }
   .bar nav a, .bar nav > button { padding: 0 0.4375rem; font-size: 0.9375rem; }
 }
+
+/* Small appearance button pinned to the top-right corner of the sign-in page. A frosted circle,
+   so it reads clearly over the blue artwork on phones and over the light page on wide screens. */
+.corner { position: fixed; z-index: 30; top: calc(env(safe-area-inset-top) + 0.75rem); right: 0.75rem; }
+.corner .theme-btn {
+  width: 2.5rem; height: 2.5rem; color: var(--ink);
+  background: color-mix(in srgb, var(--surface) 72%, transparent);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4); backdrop-filter: blur(16px) saturate(1.4);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.1), 0 0 0 1px color-mix(in srgb, var(--ink) 10%, transparent);
+}
+.corner .theme-btn svg { width: 1.125rem; height: 1.125rem; }
+@media (hover: hover) { .corner .theme-btn:hover { background: var(--surface); } }
+@media (prefers-reduced-transparency: reduce) { .corner .theme-btn { background: var(--surface); -webkit-backdrop-filter: none; backdrop-filter: none; } }
+
+/* Spinner shown in the Google button while Google's page loads. */
+.spinner { width: 1.25rem; height: 1.25rem; border-radius: 50%; border: 2.5px solid color-mix(in srgb, currentColor 25%, transparent); border-top-color: currentColor; animation: spin 0.7s linear infinite; }
+@keyframes spin { to { transform: rotate(1turn); } }
+.google[aria-busy="true"] { pointer-events: none; opacity: 0.85; }
+@media (prefers-reduced-motion: reduce) { .spinner { animation-duration: 2s; } }
