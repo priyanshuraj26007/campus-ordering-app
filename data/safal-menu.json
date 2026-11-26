@@ -1,0 +1,1441 @@
+{
+  "shop": "Safal",
+  "currency": "INR",
+  "categories": [
+    {
+      "name": "Maggi",
+      "items": [
+        {
+          "id": "normal-maggi",
+          "name": "Normal Maggi",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 40
+            }
+          ]
+        },
+        {
+          "id": "masala-maggi",
+          "name": "Masala Maggi",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 50
+            }
+          ]
+        },
+        {
+          "id": "cheese-maggi",
+          "name": "Cheese Maggi",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 70
+            }
+          ]
+        },
+        {
+          "id": "vegetable-maggi",
+          "name": "Vegetable Maggi",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 80
+            }
+          ]
+        },
+        {
+          "id": "atta-maggi",
+          "name": "Atta Maggi",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 60
+            }
+          ]
+        },
+        {
+          "id": "atta-masala-maggi",
+          "name": "Atta Masala Maggi",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 70
+            }
+          ]
+        },
+        {
+          "id": "atta-cheese-maggi",
+          "name": "Atta Cheese Maggi",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 90
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Sabji Puri",
+      "items": [
+        {
+          "id": "aloo-puri",
+          "name": "Aloo Puri",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 50
+            }
+          ],
+          "portion": "5 puri"
+        },
+        {
+          "id": "chole-puri",
+          "name": "Chole Puri",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 60
+            }
+          ],
+          "portion": "5 puri"
+        },
+        {
+          "id": "aloo-chole-puri",
+          "name": "Aloo + Chole + Puri",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 70
+            }
+          ],
+          "portion": "5 puri"
+        },
+        {
+          "id": "boondi-raita",
+          "name": "Boondi Raita",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 20
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Pasta",
+      "items": [
+        {
+          "id": "masala-pasta",
+          "name": "Masala Pasta",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 70
+            }
+          ]
+        },
+        {
+          "id": "cheese-pasta",
+          "name": "Cheese Pasta",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 90
+            }
+          ]
+        },
+        {
+          "id": "butter-masala-pasta",
+          "name": "Butter Masala Pasta",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 90
+            }
+          ]
+        },
+        {
+          "id": "red-sauce-pasta",
+          "name": "Red Sauce Pasta",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 90
+            }
+          ]
+        },
+        {
+          "id": "white-sauce-cheese-pasta",
+          "name": "White Sauce Cheese Pasta",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 110
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Sandwiches",
+      "items": [
+        {
+          "id": "normal-grill-sandwich",
+          "name": "Normal Grill Sandwich",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 50
+            }
+          ]
+        },
+        {
+          "id": "paneer-sandwich",
+          "name": "Paneer Sandwich",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 60
+            }
+          ]
+        },
+        {
+          "id": "veg-grill-cheese-sandwich",
+          "name": "Veg Grill Cheese Sandwich",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 80
+            }
+          ]
+        },
+        {
+          "id": "veg-grill-cheese-sandwich-peri-peri",
+          "name": "Veg Grill Cheese Sandwich Peri Peri",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 90
+            }
+          ]
+        },
+        {
+          "id": "veg-grill-tandoori-cheese-sauce-sandwich",
+          "name": "Veg Grill Tandoori Cheese Sauce Sandwich",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 100
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Potato & Momos",
+      "items": [
+        {
+          "id": "chilli-potato",
+          "name": "Chilli Potato",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 100
+            }
+          ]
+        },
+        {
+          "id": "chilli-honey-potato",
+          "name": "Chilli Honey Potato",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 120
+            }
+          ]
+        },
+        {
+          "id": "veg-momos",
+          "name": "Veg Momos",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 80
+            }
+          ],
+          "portion": "8 pcs"
+        },
+        {
+          "id": "soyabean-momos",
+          "name": "Soyabean Momos",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 90
+            }
+          ],
+          "portion": "8 pcs"
+        },
+        {
+          "id": "paneer-momos",
+          "name": "Paneer Momos",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 100
+            }
+          ],
+          "portion": "8 pcs"
+        },
+        {
+          "id": "veg-gravy-momos",
+          "name": "Veg Gravy Momos",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 100
+            }
+          ],
+          "portion": "8 pcs"
+        },
+        {
+          "id": "paneer-gravy-momos",
+          "name": "Paneer Gravy Momos",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 120
+            }
+          ],
+          "portion": "8 pcs"
+        },
+        {
+          "id": "veg-kurkure-momos",
+          "name": "Veg Kurkure Momos",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 120
+            }
+          ],
+          "portion": "8 pcs"
+        },
+        {
+          "id": "veg-paneer-kurkure-momos",
+          "name": "Veg Paneer Kurkure Momos",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 140
+            }
+          ],
+          "portion": "8 pcs"
+        }
+      ]
+    },
+    {
+      "name": "Burgers",
+      "items": [
+        {
+          "id": "normal-veg-burger",
+          "name": "Normal Veg Burger",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 50
+            }
+          ]
+        },
+        {
+          "id": "classic-burger",
+          "name": "Classic Burger",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 70
+            }
+          ]
+        },
+        {
+          "id": "double-tikki-burger",
+          "name": "Double Tikki Burger",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 90
+            }
+          ]
+        },
+        {
+          "id": "cheese-burger",
+          "name": "Cheese Burger",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 100
+            }
+          ]
+        },
+        {
+          "id": "double-cheese-burger",
+          "name": "Double Cheese Burger",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 120
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Veg Noodles",
+      "items": [
+        {
+          "id": "veg-noodles",
+          "name": "Veg Noodles",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 70
+            }
+          ]
+        },
+        {
+          "id": "veg-paneer-noodles",
+          "name": "Veg Paneer Noodles",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 90
+            }
+          ]
+        },
+        {
+          "id": "chilli-garlic-noodles",
+          "name": "Chilli Garlic Noodles",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 80
+            }
+          ]
+        },
+        {
+          "id": "singapuri-noodles",
+          "name": "Singapuri Noodles",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 80
+            }
+          ]
+        },
+        {
+          "id": "spring-roll",
+          "name": "Spring Roll",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 80
+            }
+          ],
+          "portion": "2 pcs"
+        }
+      ]
+    },
+    {
+      "name": "French Fries",
+      "items": [
+        {
+          "id": "normal-french-fries",
+          "name": "Normal French Fries",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 70
+            }
+          ]
+        },
+        {
+          "id": "masala-french-fries",
+          "name": "Masala French Fries",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 80
+            }
+          ]
+        },
+        {
+          "id": "peri-peri-masala-fries",
+          "name": "Peri Peri Masala Fries",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 100
+            }
+          ]
+        },
+        {
+          "id": "cheese-french-fries",
+          "name": "Cheese French Fries",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 120
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Chaat & Paratha (Desi Ghee)",
+      "items": [
+        {
+          "id": "chole-samosa",
+          "name": "Chole Samosa",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 50
+            }
+          ]
+        },
+        {
+          "id": "tikki-chole",
+          "name": "Tikki Chole",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 60
+            }
+          ]
+        },
+        {
+          "id": "poha",
+          "name": "Poha",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 50
+            }
+          ]
+        },
+        {
+          "id": "salted-peanut-chaat",
+          "name": "Salted Peanut Chaat",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 40
+            }
+          ]
+        },
+        {
+          "id": "sweet-corn-chaat",
+          "name": "Sweet Corn Chaat",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 40
+            }
+          ]
+        },
+        {
+          "id": "sweet-corn-butter-masala-chaat",
+          "name": "Sweet Corn Butter Masala Chaat",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 50
+            }
+          ]
+        },
+        {
+          "id": "aloo-paratha",
+          "name": "Aloo Paratha",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 60
+            }
+          ]
+        },
+        {
+          "id": "aloo-pyaaz-paratha",
+          "name": "Aloo Pyaaz Paratha",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 70
+            }
+          ]
+        },
+        {
+          "id": "paneer-paratha",
+          "name": "Paneer Paratha",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 90
+            }
+          ]
+        },
+        {
+          "id": "paneer-pyaaz-paratha",
+          "name": "Paneer Pyaaz Paratha",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 100
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Safal Special & Drinks",
+      "items": [
+        {
+          "id": "veg-kabab",
+          "name": "Veg Kabab",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 80
+            }
+          ]
+        },
+        {
+          "id": "pizza-pockets",
+          "name": "Pizza Pockets",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 90
+            }
+          ]
+        },
+        {
+          "id": "jalapeno-cheese-pops",
+          "name": "Jalapeno Cheese Pops",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 100
+            }
+          ]
+        },
+        {
+          "id": "crispy-veggie-bite",
+          "name": "Crispy Veggie Bite",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 70
+            }
+          ]
+        },
+        {
+          "id": "veggie-stick",
+          "name": "Veggie Stick",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 80
+            }
+          ]
+        },
+        {
+          "id": "chilli-garlic-nuggets",
+          "name": "Chilli Garlic Nuggets",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 80
+            }
+          ]
+        },
+        {
+          "id": "special-tea",
+          "name": "Special Tea",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 15
+            }
+          ]
+        },
+        {
+          "id": "masala-tea",
+          "name": "Masala Tea",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 20
+            }
+          ]
+        },
+        {
+          "id": "lemon-tea",
+          "name": "Lemon Tea",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 20
+            }
+          ]
+        },
+        {
+          "id": "black-tea",
+          "name": "Black Tea",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 15
+            }
+          ]
+        },
+        {
+          "id": "hot-coffee",
+          "name": "Hot Coffee",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 25
+            }
+          ]
+        },
+        {
+          "id": "cold-coffee",
+          "name": "Cold Coffee",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 50
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Yippee Noodles",
+      "items": [
+        {
+          "id": "normal-yippee-noodles",
+          "name": "Normal Yippee Noodles",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 40
+            }
+          ]
+        },
+        {
+          "id": "masala-yippee-noodles",
+          "name": "Masala Yippee Noodles",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 50
+            }
+          ]
+        },
+        {
+          "id": "yippee-cheese-noodles",
+          "name": "Yippee Cheese Noodles",
+          "variants": [
+            {
+              "size": "Regular",
+              "price": 70
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Mojitos",
+      "items": [
+        {
+          "id": "lemon-soda-with-mint",
+          "name": "Lemon Soda With Mint",
+          "variants": [
+            {
+              "size": "Small",
+              "price": 50
+            },
+            {
+              "size": "Medium",
+              "price": 60
+            },
+            {
+              "size": "Large",
+              "price": 70
+            }
+          ]
+        },
+        {
+          "id": "virgin-mojito",
+          "name": "Virgin Mojito",
+          "variants": [
+            {
+              "size": "Small",
+              "price": 40
+            },
+            {
+              "size": "Medium",
+              "price": 50
+            },
+            {
+              "size": "Large",
+              "price": 60
+            }
+          ]
+        },
+        {
+          "id": "lychee-mojito",
+          "name": "Lychee Mojito",
+          "variants": [
+            {
+              "size": "Small",
+              "price": 50
+            },
+            {
+              "size": "Medium",
+              "price": 60
+            },
+            {
+              "size": "Large",
+              "price": 70
+            }
+          ]
+        },
+        {
+          "id": "dark-grape-mojito",
+          "name": "Dark Grape Mojito",
+          "variants": [
+            {
+              "size": "Small",
+              "price": 60
+            },
+            {
+              "size": "Medium",
+              "price": 70
+            },
+            {
+              "size": "Large",
+              "price": 80
+            }
+          ]
+        },
+        {
+          "id": "guava-mojito",
+          "name": "Guava Mojito",
+          "variants": [
+            {
+              "size": "Small",
+              "price": 50
+            },
+            {
+              "size": "Medium",
+              "price": 60
+            },
+            {
+              "size": "Large",
+              "price": 70
+            }
+          ]
+        },
+        {
+          "id": "kiwi-mint-mojito",
+          "name": "Kiwi Mint Mojito",
+          "variants": [
+            {
+              "size": "Small",
+              "price": 60
+            },
+            {
+              "size": "Medium",
+              "price": 70
+            },
+            {
+              "size": "Large",
+              "price": 80
+            }
+          ]
+        },
+        {
+          "id": "orange-mojito",
+          "name": "Orange Mojito",
+          "variants": [
+            {
+              "size": "Small",
+              "price": 50
+            },
+            {
+              "size": "Medium",
+              "price": 60
+            },
+            {
+              "size": "Large",
+              "price": 70
+            }
+          ]
+        },
+        {
+          "id": "watermelon-mojito",
+          "name": "Watermelon Mojito",
+          "variants": [
+            {
+              "size": "Small",
+              "price": 50
+            },
+            {
+              "size": "Medium",
+              "price": 60
+            },
+            {
+              "size": "Large",
+              "price": 70
+            }
+          ]
+        },
+        {
+          "id": "blueberry-mojito",
+          "name": "Blueberry Mojito",
+          "variants": [
+            {
+              "size": "Small",
+              "price": 60
+            },
+            {
+              "size": "Medium",
+              "price": 70
+            },
+            {
+              "size": "Large",
+              "price": 80
+            }
+          ]
+        },
+        {
+          "id": "pomegranate-mojito",
+          "name": "Pomegranate Mojito",
+          "variants": [
+            {
+              "size": "Small",
+              "price": 60
+            },
+            {
+              "size": "Medium",
+              "price": 70
+            },
+            {
+              "size": "Large",
+              "price": 80
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Juices",
+      "items": [
+        {
+          "id": "ganna-juice",
+          "name": "Ganna Juice",
+          "variants": [
+            {
+              "size": "Small",
+              "price": 30
+            },
+            {
+              "size": "Medium",
+              "price": 40
+            },
+            {
+              "size": "Large",
+              "price": 50
+            },
+            {
+              "size": "Extra Large",
+              "price": 60
+            }
+          ]
+        },
+        {
+          "id": "mausami-juice",
+          "name": "Mausami Juice",
+          "variants": [
+            {
+              "size": "Small",
+              "price": 40
+            },
+            {
+              "size": "Medium",
+              "price": 50
+            },
+            {
+              "size": "Large",
+              "price": 60
+            },
+            {
+              "size": "Extra Large",
+              "price": 70
+            }
+          ]
+        },
+        {
+          "id": "orange-juice",
+          "name": "Orange Juice",
+          "variants": [
+            {
+              "size": "Small",
+              "price": 50
+            },
+            {
+              "size": "Medium",
+              "price": 60
+            },
+            {
+              "size": "Large",
+              "price": 70
+            },
+            {
+              "size": "Extra Large",
+              "price": 80
+            }
+          ]
+        },
+        {
+          "id": "pineapple-juice",
+          "name": "Pineapple Juice",
+          "variants": [
+            {
+              "size": "Small",
+              "price": 50
+            },
+            {
+              "size": "Medium",
+              "price": 60
+            },
+            {
+              "size": "Large",
+              "price": 70
+            },
+            {
+              "size": "Extra Large",
+              "price": 80
+            }
+          ]
+        },
+        {
+          "id": "mix-juice",
+          "name": "Mix Juice",
+          "variants": [
+            {
+              "size": "Small",
+              "price": 50
+            },
+            {
+              "size": "Medium",
+              "price": 60
+            },
+            {
+              "size": "Large",
+              "price": 70
+            },
+            {
+              "size": "Extra Large",
+              "price": 80
+            }
+          ]
+        },
+        {
+          "id": "watermelon-juice",
+          "name": "Watermelon Juice",
+          "variants": [
+            {
+              "size": "Small",
+              "price": 60
+            },
+            {
+              "size": "Medium",
+              "price": 70
+            },
+            {
+              "size": "Large",
+              "price": 80
+            },
+            {
+              "size": "Extra Large",
+              "price": 100
+            }
+          ]
+        },
+        {
+          "id": "anaar-juice",
+          "name": "Anaar Juice",
+          "variants": [
+            {
+              "size": "Small",
+              "price": 80
+            },
+            {
+              "size": "Medium",
+              "price": 100
+            },
+            {
+              "size": "Large",
+              "price": 120
+            },
+            {
+              "size": "Extra Large",
+              "price": 140
+            }
+          ]
+        },
+        {
+          "id": "apple-juice",
+          "name": "Apple Juice",
+          "variants": [
+            {
+              "size": "Small",
+              "price": 80
+            },
+            {
+              "size": "Medium",
+              "price": 100
+            },
+            {
+              "size": "Large",
+              "price": 120
+            },
+            {
+              "size": "Extra Large",
+              "price": 150
+            }
+          ]
+        },
+        {
+          "id": "vegetable-juice",
+          "name": "Vegetable Juice",
+          "variants": [
+            {
+              "size": "Small",
+              "price": 40
+            },
+            {
+              "size": "Medium",
+              "price": 50
+            },
+            {
+              "size": "Large",
+              "price": 60
+            },
+            {
+              "size": "Extra Large",
+              "price": 70
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Shakes",
+      "items": [
+        {
+          "id": "mango-shake",
+          "name": "Mango Shake",
+          "variants": [
+            {
+              "size": "Small",
+              "price": 50
+            },
+            {
+              "size": "Medium",
+              "price": 60
+            },
+            {
+              "size": "Large",
+              "price": 70
+            },
+            {
+              "size": "Extra Large",
+              "price": 80
+            }
+          ]
+        },
+        {
+          "id": "banana-shake",
+          "name": "Banana Shake",
+          "variants": [
+            {
+              "size": "Small",
+              "price": 50
+            },
+            {
+              "size": "Medium",
+              "price": 60
+            },
+            {
+              "size": "Large",
+              "price": 70
+            },
+            {
+              "size": "Extra Large",
+              "price": 80
+            }
+          ]
+        },
+        {
+          "id": "strawberry-shake",
+          "name": "Strawberry Shake",
+          "variants": [
+            {
+              "size": "Small",
+              "price": 50
+            },
+            {
+              "size": "Medium",
+              "price": 60
+            },
+            {
+              "size": "Large",
+              "price": 70
+            },
+            {
+              "size": "Extra Large",
+              "price": 80
+            }
+          ]
+        },
+        {
+          "id": "butterscotch-shake",
+          "name": "Butterscotch Shake",
+          "variants": [
+            {
+              "size": "Small",
+              "price": 50
+            },
+            {
+              "size": "Medium",
+              "price": 60
+            },
+            {
+              "size": "Large",
+              "price": 70
+            },
+            {
+              "size": "Extra Large",
+              "price": 80
+            }
+          ]
+        },
+        {
+          "id": "vanilla-shake",
+          "name": "Vanilla Shake",
+          "variants": [
+            {
+              "size": "Small",
+              "price": 60
+            },
+            {
+              "size": "Medium",
+              "price": 80
+            },
+            {
+              "size": "Large",
+              "price": 100
+            },
+            {
+              "size": "Extra Large",
+              "price": 120
+            }
+          ]
+        },
+        {
+          "id": "pineapple-shake",
+          "name": "Pineapple Shake",
+          "variants": [
+            {
+              "size": "Small",
+              "price": 50
+            },
+            {
+              "size": "Medium",
+              "price": 60
+            },
+            {
+              "size": "Large",
+              "price": 70
+            },
+            {
+              "size": "Extra Large",
+              "price": 80
+            }
+          ]
+        },
+        {
+          "id": "oreo-shake",
+          "name": "Oreo Shake",
+          "variants": [
+            {
+              "size": "Small",
+              "price": 50
+            },
+            {
+              "size": "Medium",
+              "price": 60
+            },
+            {
+              "size": "Large",
+              "price": 70
+            },
+            {
+              "size": "Extra Large",
+              "price": 80
+            }
+          ]
+        },
+        {
+          "id": "blueberry-shake",
+          "name": "Blueberry Shake",
+          "variants": [
+            {
+              "size": "Small",
+              "price": 70
+            },
+            {
+              "size": "Medium",
+              "price": 80
+            },
+            {
+              "size": "Large",
+              "price": 90
+            },
+            {
+              "size": "Extra Large",
+              "price": 100
+            }
+          ]
+        },
+        {
+          "id": "paan-shake",
+          "name": "Paan Shake",
+          "variants": [
+            {
+              "size": "Small",
+              "price": 60
+            },
+            {
+              "size": "Medium",
+              "price": 70
+            },
+            {
+              "size": "Large",
+              "price": 80
+            },
+            {
+              "size": "Extra Large",
+              "price": 100
+            }
+          ]
+        },
+        {
+          "id": "litchi-shake",
+          "name": "Litchi Shake",
+          "variants": [
+            {
+              "size": "Small",
+              "price": 60
+            },
+            {
+              "size": "Medium",
+              "price": 80
+            },
+            {
+              "size": "Large",
+              "price": 100
+            },
+            {
+              "size": "Extra Large",
+              "price": 120
+            }
+          ]
+        },
+        {
+          "id": "chocolate-shake",
+          "name": "Chocolate Shake",
+          "variants": [
+            {
+              "size": "Small",
+              "price": 60
+            },
+            {
+              "size": "Medium",
+              "price": 80
+            },
+            {
+              "size": "Large",
+              "price": 100
+            },
+            {
+              "size": "Extra Large",
+              "price": 120
+            }
+          ]
+        },
+        {
+          "id": "khajur-shake",
+          "name": "Khajur Shake",
+          "variants": [
+            {
+              "size": "Small",
+              "price": 80
+            },
+            {
+              "size": "Medium",
+              "price": 100
+            },
+            {
+              "size": "Large",
+              "price": 140
+            },
+            {
+              "size": "Extra Large",
+              "price": 150
+            }
+          ]
+        },
+        {
+          "id": "kesar-pista-shake",
+          "name": "Kesar Pista Shake",
+          "variants": [
+            {
+              "size": "Small",
+              "price": 70
+            },
+            {
+              "size": "Medium",
+              "price": 100
+            },
+            {
+              "size": "Large",
+              "price": 140
+            },
+            {
+              "size": "Extra Large",
+              "price": 150
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

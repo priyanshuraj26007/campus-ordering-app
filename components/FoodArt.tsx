@@ -1,0 +1,31 @@
+// Flat illustrations drawn in code, so the menu needs no photos. Drinks take the colour of their fruit.
+const DRINK: [RegExp, string][] = [[/blue ?berry|grape/i, "#6b5bb5"], [/strawberry|lychee|litchi/i, "#f58fa8"], [/water ?melon|anaar|pomegranate/i, "#e2445c"],
+  [/kiwi|virgin|paan/i, "#8cc152"], [/guava/i, "#f7a08c"], [/ganna|lemon|mausami/i, "#d9d95b"], [/kesar|pineapple|banana/i, "#f8cf55"],
+  [/mango|orange/i, "#ff9f2e"], [/apple/i, "#e9b04d"], [/mix|vegetable/i, "#ef6f3c"], [/chocolate|khajur|oreo|coffee/i, "#7d523b"], [/vanilla/i, "#f7e8c3"], [/butter ?scotch/i, "#e2a44a"]];
+const INK = "#1e2a4a"; // navy outlines to sit with the blue palette
+function pick(name: string): [string, React.ReactNode] {
+  const n = name.toLowerCase();
+  if (/juice|shake(?!r)|mojito|soda|cold coffee/.test(n)) {
+    const c = DRINK.find(([r]) => r.test(n))?.[1] ?? "#ff9f2e", mojito = /mojito|soda/.test(n), shake = /shake|cold/.test(n);
+    return [`color-mix(in srgb, ${c} 22%, #fff)`, <><path d="M37 8l-5 14" stroke={INK} strokeWidth="3" strokeLinecap="round" /><path d="M18 18h28l-4 38a3 3 0 0 1-3 3H25a3 3 0 0 1-3-3z" fill="#fff" /><path d="M19 26h26l-3.200 29a2 2 0 0 1-2 2H24.200a2 2 0 0 1-2-2z" fill={c} />
+      {shake && <path d="M17 24c0-7 6-5 7-9 3-4 12-4 15 0 2 4 8 2 8 9z" fill="#fff6e0" />}
+      {mojito && <><rect x="25" y="33" width="9" height="9" rx="2" fill="#fff" opacity=".6" transform="rotate(12 29 37)" /><rect x="32" y="43" width="8" height="8" rx="2" fill="#fff" opacity=".5" /><path d="M20 19c0-8 8-9 11-7-1 6-5 9-11 7z" fill="#3f9b4b" /></>}
+      <path d="M18 18h28l-4 38a3 3 0 0 1-3 3H25a3 3 0 0 1-3-3z" fill="none" stroke={INK} strokeWidth="2.500" strokeLinejoin="round" /></>];
+  }
+  if (/\btea\b|hot coffee/.test(n)) return ["#f3dcc3", <><path d="M25 8c-4 5 4 7 0 12M35 8c-4 5 4 7 0 12" stroke="#b98" strokeWidth="3" fill="none" strokeLinecap="round" /><path d="M45 32c12-2 12 14-2 13" fill="none" stroke={INK} strokeWidth="4" /><path d="M14 25h32l-4 28a5 5 0 0 1-5 4H23a5 5 0 0 1-5-4z" fill="#fff" stroke={INK} strokeWidth="2.500" /><ellipse cx="30" cy="27" rx="14" ry="4" fill={/lemon/.test(n) ? "#d99a2b" : /black/.test(n) ? "#5d2f1a" : "#b4713d"} /></>];
+  if (/burger/.test(n)) return ["#fde3bd", <><path d="M10 30C11 8 53 8 54 30z" fill="#e8a24a" stroke={INK} strokeWidth="2.500" /><path d="M23 20h2M32 16h2M41 21h2" stroke="#fff3d6" strokeWidth="3" strokeLinecap="round" /><path d="M8 34q6 8 12 0t12 0 12 0 12 0" fill="none" stroke="#5aa845" strokeWidth="5" /><rect x="10" y="38" width="44" height="7" rx="3" fill="#8a4b2a" />{/cheese/.test(n) && <path d="M14 37h36l-9 8z" fill="#ffc93c" />}<path d="M10 47h44c0 8-4 10-9 10H19c-5 0-9-2-9-10z" fill="#e8a24a" stroke={INK} strokeWidth="2.500" /></>];
+  if (/fries|veggie stick/.test(n)) return ["#fff0b8", <><path d="M20 30V10M27 28V7M34 28V9M41 30V6M46 30V14" stroke={INK} strokeWidth="9" strokeLinecap="round" /><path d="M20 30V10M27 28V7M34 28V9M41 30V6M46 30V14" stroke="#ffe08a" strokeWidth="5" strokeLinecap="round" /><path d="M13 27q19 9 38 0l-5 30H18z" fill="#e2445c" stroke={INK} strokeWidth="2.500" strokeLinejoin="round" /></>];
+  if (/momo/.test(n)) return ["#e4eedf", <><ellipse cx="32" cy="48" rx="28" ry="10" fill="#fff" stroke={INK} strokeWidth="2.500" />{[[20, 38], [44, 38], [32, 28]].map(([x, y]) => <g key={x}><path d={`M${x - 13} ${y + 10}c0-16 8-20 13-20s13 4 13 20z`} fill={/kurkure/.test(n) ? "#eeb355" : /gravy/.test(n) ? "#f2a27c" : "#fff6e3"} stroke={INK} strokeWidth="2" /><path d={`M${x} ${y - 9}l-5 10M${x} ${y - 9}v11M${x} ${y - 9}l5 10`} stroke={INK} strokeWidth="1.500" /></g>)}</>];
+  if (/sandwich/.test(n)) return ["#fbe5c8", <><path d="M6 46L32 14l26 32z" fill="#e9b368" stroke={INK} strokeWidth="2.500" strokeLinejoin="round" /><path d="M19 38l12-15M28 39l9-12M38 40l5-7" stroke="#a9692c" strokeWidth="3" /><path d="M6 46h52v4H6z" fill="#5aa845" /><path d="M6 49h52v4H6z" fill="#ffc93c" /><path d="M6 53h52v5H6z" fill="#e9b368" stroke={INK} strokeWidth="2" /></>];
+  if (/paratha|puri/.test(n)) return ["#fbe5c8", <><circle cx="32" cy="33" r="26" fill="#fff" stroke={INK} strokeWidth="2.500" /><circle cx="28" cy="34" r="18" fill="#e7b25f" /><path d="M20 28h4M30 24h5M22 40h5M34 37h5M30 46h4" stroke="#a9692c" strokeWidth="4" strokeLinecap="round" /><circle cx="47" cy="27" r="8" fill={/chole/.test(n) ? "#a65a2a" : "#f4d35e"} stroke={INK} strokeWidth="1.500" /></>];
+  if (/roll|kabab|pocket|pops|bite|nugget|samosa/.test(n)) return ["#fde3bd", <><ellipse cx="32" cy="46" rx="27" ry="11" fill="#fff" stroke={INK} strokeWidth="2.500" />{/samosa/.test(n) ? <><path d="M9 45l14-27 13 27z" fill="#e0a046" stroke={INK} strokeWidth="2" /><path d="M29 46l14-25 12 25z" fill="#ebb35c" stroke={INK} strokeWidth="2" /></> : <><rect x="10" y="32" width="23" height="14" rx="7" fill="#d98a35" stroke={INK} strokeWidth="2" /><rect x="31" y="33" width="23" height="14" rx="7" fill="#e6a04a" stroke={INK} strokeWidth="2" /><rect x="20" y="21" width="24" height="14" rx="7" fill="#e6a04a" stroke={INK} strokeWidth="2" /></>}</>];
+  const noodles = /maggi|noodles/.test(n), pasta = /pasta/.test(n), potato = /potato/.test(n);
+  const fill = noodles ? "#ffd05a" : pasta ? (/white/.test(n) ? "#fff0cf" : "#ee6a45") : potato ? "#d9562f" : /raita/.test(n) ? "#fff" : /corn|poha/.test(n) ? "#ffd23f" : "#c5793a";
+  return [pasta || potato ? "#fbd9cb" : "#fff0b8", <><ellipse cx="32" cy="31" rx="25" ry="13" fill={fill} stroke={INK} strokeWidth="2.500" />
+    {noodles ? <path d="M13 29q6-8 12 0t12 0 13 0M16 35q6-7 11 0t11 0 10-2" stroke="#d48f16" strokeWidth="2.500" fill="none" /> : pasta || potato ? <path d="M20 28l9 4M34 24l9 4M27 37l10-2M42 34l5-3" stroke={pasta ? "#fff0c4" : "#ffc46b"} strokeWidth="6" strokeLinecap="round" /> : <path d="M20 29h.1M28 25h.1M37 27h.1M45 31h.1M33 35h.1M24 36h.1" stroke={/raita/.test(n) ? "#e7b25f" : "#8a4b2a"} strokeWidth="6" strokeLinecap="round" />}
+    <path d="M28 22l4-3M40 37l4-1" stroke="#3f9b4b" strokeWidth="4" strokeLinecap="round" /><path d="M7 31c0 18 11 27 25 27s25-9 25-27c-4 18-46 18-50 0z" fill="#fff" stroke={INK} strokeWidth="2.500" strokeLinejoin="round" /></>];
+}
+export default function FoodArt({ name }: { name: string }) {
+  const [bg, art] = pick(name);
+  return <span className="art" style={{ background: bg }} aria-hidden><svg viewBox="0 0 64 64" fill="none">{art}</svg></span>;
+}

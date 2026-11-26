@@ -1,0 +1,11 @@
+node_modules
+.next
+*.db
+*.db-*
+.env*
+next-env.d.ts
+*.tsbuildinfo
+!.env.example
+.DS_Store
+# Menu photos show the owner's phone number; the menu itself is in data/safal-menu.json
+WhatsApp*
